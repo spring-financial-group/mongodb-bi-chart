@@ -39,7 +39,7 @@ spec:
             
             export CHART_FOLDER=mongodb-bi
 
-            if [ -d "charts/$PATH" ]; then
+            if [ -d "charts/$CHART_FOLDER" ]; then
             jx gitops yset -p version -v "$VERSION" -f ./charts/$CHART_FOLDER/Chart.yaml
             jx gitops yset -p appVersion -v "$VERSION" -f ./charts/$CHART_FOLDER/Chart.yaml
             jx gitops yset -p 'image.repository' -v $DOCKER_REGISTRY/$DOCKER_REGISTRY_ORG/$APP_NAME -f ./charts/$CHART_FOLDER/values.yaml
