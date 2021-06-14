@@ -42,11 +42,11 @@ spec:
         {{- end }}
           env:
           - name: MONGODB_HOST
-            value: {{ .Values.auth.host }}
+            value: {{ .Values.auth.host | quote }}
           - name: MONGODB_PORT
-            value: {{ .Values.auth.port }}
+            value: {{ .Values.auth.port | quote }}
           - name: MONGODB_USERNAME
-            value: {{ .Values.auth.user }}
+            value: {{ .Values.auth.user | quote }}
           - name: MONGODB_PASSWORD
             valueFrom:
               secretKeyRef:
