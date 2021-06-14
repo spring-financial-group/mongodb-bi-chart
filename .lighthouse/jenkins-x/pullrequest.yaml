@@ -26,8 +26,6 @@ spec:
           resources: {}
         - name: build-container-build
           resources: {}
-        - name: build-helm-build
-          resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 12h0m0s
