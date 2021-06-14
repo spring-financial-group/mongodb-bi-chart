@@ -50,7 +50,7 @@ spec:
           - name: MONGODB_PASSWORD
             valueFrom:
               secretKeyRef:
-                key: {{ .Values.auth.secretKey }}
+                key: {{ .Values.auth.password.secretKey }}
                 name: {{ .Values.auth.password.secretName }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

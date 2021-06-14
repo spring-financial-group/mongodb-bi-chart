@@ -74,4 +74,3 @@ auth:
   password:
     secretName: mongodb-password
     secretKey: password
-  
