@@ -11,7 +11,7 @@ spec:
       taskSpec:
         metadata: {}
         stepTemplate:
-          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/helm/release.yaml@versionStream
+          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/docker-helm/release.yaml@versionStream
           name: ""
           resources:
             requests:
@@ -26,11 +26,31 @@ spec:
           resources: {}
         - name: jx-variables
           resources: {}
-        - name: promote-changelog
+        - name: check-registry
           resources: {}
+        - name: build-container-build
+          resources: {}
+        - image: ghcr.io/jenkins-x/jx-changelog:0.0.43
+          name: promote-changelog
+          resources: {}
+          script: |
+            #!/usr/bin/env sh
+            source .jx/variables.sh
+            
+            export CHART_FOLDER=mongodb-bi
+
+            if [ -d "charts/$CHART_FOLDER" ]; then
+            jx gitops yset -p version -v "$VERSION" -f ./charts/$CHART_FOLDER/Chart.yaml
+            jx gitops yset -p appVersion -v "$VERSION" -f ./charts/$CHART_FOLDER/Chart.yaml
+            jx gitops yset -p 'image.repository' -v $DOCKER_REGISTRY/$DOCKER_REGISTRY_ORG/$APP_NAME -f ./charts/$CHART_FOLDER/values.yaml
+            jx gitops yset -p 'image.tag' -v "$VERSION" -f ./charts/$CHART_FOLDER/values.yaml;
+            else echo no charts; fi
+            git add * || true
+            git commit -a -m "chore: release $VERSION" --allow-empty
+            git tag -fa v$VERSION -m "Release version $VERSION"
+            git push --force origin v$VERSION
+            jx changelog create --version v${VERSION}
         - name: promote-helm-release
-          resources: {}
-        - name: promote-jx-promote
           resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
