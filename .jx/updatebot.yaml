@@ -1,0 +1,12 @@
+apiVersion: updatebot.jenkins-x.io/v1alpha1
+kind: UpdateConfig
+spec:
+  rules:
+    - urls:
+        - https://github.com/spring-financial-group/JX3_Azure_Vault_Dev_Cluster
+      changes:
+        - regex:
+            pattern: '- chart: dev\/mongodb-bi\n  version: (.*?)\n'
+            files:
+              - "**/jx-preproduction/helmfile.yaml"
+      reusePullRequest: false
