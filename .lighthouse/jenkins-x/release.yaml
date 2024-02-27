@@ -53,7 +53,7 @@ spec:
         - name: promote-helm-release
           resources: {}
         - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/updatebot/release.yaml@versionStream
-          resources: { }
+          resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 12h0m0s
